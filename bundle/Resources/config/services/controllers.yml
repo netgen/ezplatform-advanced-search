@@ -1,0 +1,17 @@
+services:
+    netgen_ez_platform_advanced_search.controller.advanced_search:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Controller\AdvancedSearchPageController
+        calls:
+            - [setContainer, ['@service_container']]
+
+    netgen_ez_platform_advanced_search.controller.filtered_category:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Controller\FilteredCategoryFullViewController
+        calls:
+            - [setContainer, ['@service_container']]
+
+    netgen_ez_platform_advanced_search.controller.item_filter:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Controller\ItemFilterApiController
+        arguments:
+            - '@netgen_ez_platform_advanced_search.api.service.item_filter'
+            - '%netgen_ez_platform_advanced_search.item_filter.search_page.max_per_page_choices%'
+            - '%netgen_ez_platform_advanced_search.item_filter.search_page.default_max_per_page%'

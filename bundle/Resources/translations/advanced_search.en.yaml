@@ -1,0 +1,9 @@
+advanced_search:
+    facet:
+        name:
+            date: 'Date'
+    search_page:
+        search_text: 'You searched for "%term%"'
+        results: '{0} Results|{1} Result|]1,Inf[ Results'
+        no_results: 'No results'
+        number_of_results: '{0} %count% Results|{1} %count% Result|]1,Inf[ %count% Results'

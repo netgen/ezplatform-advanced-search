@@ -1,0 +1,22 @@
+imports:
+    - { resource: services/controllers.yml }
+    - { resource: services/mappers.yml }
+
+services:
+    netgen_ez_platform_advanced_search.item_filter.item_filter_mapper.registry:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ItemFilterMapperRegistry
+
+    netgen_ez_platform_advanced_search.api.service.item_filter:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\Search\ItemFilterService
+        arguments:
+            - '@netgen_ez_platform_advanced_search.item_filter.item_filter_mapper.registry'
+            - '@netgen.ezplatform_site.find_service'
+        calls:
+            - ['setSite', ['@netgen.ezplatform_site.site']]
+
+    netgen_ez_platform_advanced_search.api.resolver.pagination:
+        class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\Search\PaginationResolver
+        arguments:
+            - '@translator'
+            - '%netgen_ez_platform_advanced_search.item_filter.default.traslation_domain%'
+            - '%netgen_ez_platform_advanced_search.item_filter.search_page.max_per_page_choices%'

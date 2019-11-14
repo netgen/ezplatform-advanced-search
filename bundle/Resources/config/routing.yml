@@ -1,0 +1,17 @@
+netgen_ez_platform_advanced_search_item_filter:
+    path: /item_filter_api/{mapper}
+    defaults:
+        _controller: 'netgen_ez_platform_advanced_search.controller.item_filter:fullResponse'
+    methods: [GET]
+
+netgen_ez_platform_advanced_search_item_filter_pager:
+    path: /item_filter_pager_api/{mapper}
+    defaults:
+        _controller: 'netgen_ez_platform_advanced_search.controller.item_filter:pagerResponse'
+    methods: [GET]
+
+netgen_ez_platform_advanced_search_full_page:
+    path: /advanced_search
+    defaults:
+        _controller: 'netgen_ez_platform_advanced_search.controller.advanced_search'
+    methods: [GET]
