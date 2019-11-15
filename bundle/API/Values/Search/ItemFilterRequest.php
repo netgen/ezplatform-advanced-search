@@ -7,7 +7,7 @@ namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\ValueObject;
 
 /**
- * Used to perform product filter query.
+ * Used to perform item filter query.
  */
 final class ItemFilterRequest extends ValueObject
 {

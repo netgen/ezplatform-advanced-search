@@ -69,19 +69,19 @@ final class FacetMapper
     }
 
     /**
-     * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $productFilterRequest
+     * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $itemFilterRequest
      * @param string[] $facetIdentifierMap
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
     private function recursiveMapRegularFacets(
-        ItemFilterRequest $productFilterRequest,
+        ItemFilterRequest $itemFilterRequest,
         array $facetIdentifierMap,
         array $facetDefinitions,
         array $facets
@@ -101,7 +101,7 @@ final class FacetMapper
                 $mappedFacets = \array_merge(
                     $mappedFacets,
                     $this->recursiveMapRegularFacets(
-                        $productFilterRequest,
+                        $itemFilterRequest,
                         $subFacetIdentifierMap,
                         $facetDefinitions,
                         $facets
@@ -119,7 +119,7 @@ final class FacetMapper
             }
 
             $mappedFacets[] = new Facet([
-                'title' => $this->facetTitleMapper->mapTitle($productFilterRequest, $identifier),
+                'title' => $this->facetTitleMapper->mapTitle($identifier),
                 'type' => $this->resolveType($identifier),
                 'initialStateClosed' => $this->getInitialStateClosedByFacetDefinition($definition),
                 'parameterName' => $identifier,

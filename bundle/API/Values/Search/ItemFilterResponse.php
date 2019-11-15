@@ -8,7 +8,7 @@ use JsonSerializable;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\ValueObject;
 
 /**
- * Represents product filtering response.
+ * Represents item filtering response.
  */
 abstract class ItemFilterResponse extends ValueObject implements JsonSerializable
 {

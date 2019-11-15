@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Provides JSON API for Product filter.
+ * Provides JSON API for item filter.
  */
 class ItemFilterApiController extends Controller
 {

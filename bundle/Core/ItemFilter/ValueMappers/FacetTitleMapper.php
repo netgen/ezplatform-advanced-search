@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers;
 
 use eZ\Publish\Core\Helper\TranslationHelper;
-use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -53,7 +52,7 @@ final class FacetTitleMapper
         $this->translationDomain = $translationDomain;
     }
 
-    public function mapTitle(ItemFilterRequest $productFilterRequest, string $identifier): string
+    public function mapTitle(string $identifier): string
     {
         return $this->translator->trans("advanced_search.facet.name.{$identifier}", [], $this->translationDomain);
     }
