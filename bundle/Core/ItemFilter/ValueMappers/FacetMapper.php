@@ -9,6 +9,7 @@ use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterReq
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\FacetItem;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
+use Netgen\EzPlatformSiteApi\Core\Site\LoadService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use RuntimeException;
 
@@ -28,14 +29,21 @@ final class FacetMapper
     private $tagsService;
 
     /**
+     * @var LoadService
+     */
+    private $loadService;
+
+    /**
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\FacetTitleMapper $facetTitleMapper
      */
     public function __construct(
         FacetTitleMapper $facetTitleMapper,
-        TagsService $tagsService
+        TagsService $tagsService,
+        LoadService $loadService
     ) {
         $this->facetTitleMapper = $facetTitleMapper;
         $this->tagsService = $tagsService;
+        $this->loadService = $loadService;
     }
 
     /**
@@ -44,9 +52,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -74,9 +82,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -184,6 +192,23 @@ final class FacetMapper
                     $items[] = new FacetItem([
                         'id' => $entry,
                         'label' => $entry,
+                        'count' => $count,
+                    ]);
+                }
+
+                break;
+            case FacetItem::TYPE_CONTENT:
+                foreach ($facet->entries as $entry => $count) {
+                    $content = $this->loadService->loadLocation($entry)->content;
+                    $label = $entry;
+                    if ($content->hasField('title')) {
+                        $label = $content->getFieldValue('title')->text;
+                    } elseif ($content->hasField('name')) {
+                        $label = $content->getFieldValue('name')->text;
+                    }
+                    $items[] = new FacetItem([
+                        'id' => $entry,
+                        'label' => $label,
                         'count' => $count,
                     ]);
                 }
