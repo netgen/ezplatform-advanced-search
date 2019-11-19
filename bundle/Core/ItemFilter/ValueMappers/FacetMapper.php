@@ -52,9 +52,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -82,9 +82,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -179,6 +179,9 @@ final class FacetMapper
                 $tags = $this->tagsService->loadTagList(array_keys($facet->entries));
                 foreach ($facet->entries as $entry => $count) {
                     $label = $tags[$entry]->getKeyword();
+                    if ($definition['showCount']) {
+                        $label = $label . ' (' . $count . ')';
+                    }
                     $items[] = new FacetItem([
                         'id' => $entry,
                         'label' => $label,
@@ -189,9 +192,13 @@ final class FacetMapper
                 break;
             case FacetItem::TYPE_NUMBER:
                 foreach ($facet->entries as $entry => $count) {
+                    $label = $entry;
+                    if ($definition['showCount']) {
+                        $label = $label . ' (' . $count . ')';
+                    }
                     $items[] = new FacetItem([
                         'id' => $entry,
-                        'label' => $entry,
+                        'label' => $label,
                         'count' => $count,
                     ]);
                 }
@@ -205,6 +212,9 @@ final class FacetMapper
                         $label = $content->getFieldValue('title')->text;
                     } elseif ($content->hasField('name')) {
                         $label = $content->getFieldValue('name')->text;
+                    }
+                    if ($definition['showCount']) {
+                        $label = $label . ' (' . $count . ')';
                     }
                     $items[] = new FacetItem([
                         'id' => $entry,
