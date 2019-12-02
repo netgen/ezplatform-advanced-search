@@ -22,7 +22,7 @@ final class SelectedFacetMapper
     private $facetTitleMapper;
 
     /**
-     * @var TagService
+     * @var TagsService
      */
     private $tagsService;
 
