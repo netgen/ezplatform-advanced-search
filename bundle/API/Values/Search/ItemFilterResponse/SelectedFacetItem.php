@@ -8,24 +8,19 @@ use JsonSerializable;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\ValueObject;
 
 /**
- * Represents a selected facet in the filtering response.
+ * Represents a selected facet item in the filtering response.
  */
-final class SelectedFacet extends ValueObject implements JsonSerializable
+final class SelectedFacetItem extends ValueObject implements JsonSerializable
 {
     /**
-     * @var string
+     * @var int
      */
-    public $title;
+    public $id;
 
     /**
      * @var string
      */
-    public $parameterName;
-
-    /**
-     * @var SelectedFacetItem[]
-     */
-    public $items;
+    public $label;
 
     public function jsonSerialize()
     {

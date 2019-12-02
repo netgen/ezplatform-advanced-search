@@ -18,3 +18,6 @@ services:
         class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\SelectedFacetMapper
         arguments:
             - '@netgen_ez_platform_advanced_search.item_filter.facet_title_mapper'
+            - '@eztags.api.service.tags.inner'
+            - '@netgen.ezplatform_site.load_service'
+
