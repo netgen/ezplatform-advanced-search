@@ -114,7 +114,7 @@ class FacetMapper
             if (null !== $selectedFacet) {
                 $newItems = [];
                 foreach ($items as $item) {
-                    if (!in_array($item->id, $selectedFacet, true)) {
+                    if (!in_array($item->id, $selectedFacet, false)) {
                         $newItems[] = $item;
                     }
                 }
