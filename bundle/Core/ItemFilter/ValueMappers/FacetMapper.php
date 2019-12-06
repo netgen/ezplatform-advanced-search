@@ -16,7 +16,7 @@ use RuntimeException;
 /**
  * FacetMapper provides mapping of eZ Platform search API facet to item filter response facets.
  */
-final class FacetMapper
+class FacetMapper
 {
     /**
      * @var \Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\FacetTitleMapper
@@ -52,9 +52,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -82,9 +82,9 @@ final class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -103,36 +103,33 @@ final class FacetMapper
 
             $facet = $this->getFacet($facets, $identifier);
 
-            // We only try to map sub-facets if their parent facet is not mapped
-            if ($facet === null) {
-                /** @noinspection SlowArrayOperationsInLoopInspection */
-                $mappedFacets = \array_merge(
-                    $mappedFacets,
-                    $this->recursiveMapRegularFacets(
-                        $itemFilterRequest,
-                        $subFacetIdentifierMap,
-                        $facetDefinitions,
-                        $facets
-                    )
-                );
-
-                continue;
-            }
-
             $definition = $facetDefinitions[$identifier];
             $items = $this->mapItems($facet, $definition);
 
             if (\count($items) === 0) {
                 continue;
             }
+            $selectedFacet = $itemFilterRequest->request->query->get($identifier);
 
-            $mappedFacets[] = new Facet([
-                'title' => $this->facetTitleMapper->mapTitle($identifier),
-                'type' => $this->resolveType($identifier),
-                'initialStateClosed' => $this->getInitialStateClosedByFacetDefinition($definition),
-                'parameterName' => $identifier,
-                'items' => $items,
-            ]);
+            if (null !== $selectedFacet) {
+                $newItems = [];
+                foreach ($items as $item) {
+                    if (!in_array($item->id, $selectedFacet, true)) {
+                        $newItems[] = $item;
+                    }
+                }
+                $items = $newItems;
+            }
+
+            if (!empty($items)) {
+                $mappedFacets[] = new Facet([
+                    'title' => $this->facetTitleMapper->mapTitle($identifier),
+                    'type' => $this->resolveType($identifier),
+                    'initialStateClosed' => $this->getInitialStateClosedByFacetDefinition($definition),
+                    'parameterName' => $identifier,
+                    'items' => $items,
+                ]);
+            }
         }
 
         return $mappedFacets;
