@@ -22,4 +22,6 @@ services:
             - '@netgen_ez_platform_advanced_search.item_filter.facet_title_mapper'
             - '@eztags.api.service.tags.inner'
             - '@netgen.ezplatform_site.load_service'
+            - '@ezpublish.api.service.inner_object_state'
+            - '%netgen_ez_platform_advanced_search.item_filter.default.excluded_states%'
 

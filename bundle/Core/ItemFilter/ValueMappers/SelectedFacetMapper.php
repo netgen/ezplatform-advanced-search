@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers;
 
+use eZ\Publish\API\Repository\ObjectStateService;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\FacetItem;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\SelectedFacet;
@@ -32,13 +33,30 @@ final class SelectedFacetMapper
     private $loadService;
 
     /**
+     * @var ObjectStateService
+     */
+    private $objectStateService;
+
+    /**
+     * @var array State IDs to be excluded from facets
+     */
+    private $excludedStates;
+
+    /**
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\FacetTitleMapper $facetTitleMapper
      */
-    public function __construct(FacetTitleMapper $facetTitleMapper, TagsService $tagsService, LoadService $loadService)
-    {
+    public function __construct(
+        FacetTitleMapper $facetTitleMapper,
+        TagsService $tagsService,
+        LoadService $loadService,
+        ObjectStateService $objectStateService,
+        array $excludedStates
+    ) {
         $this->facetTitleMapper = $facetTitleMapper;
         $this->tagsService = $tagsService;
         $this->loadService = $loadService;
+        $this->objectStateService = $objectStateService;
+        $this->excludedStates = $excludedStates;
     }
 
     /**
@@ -46,9 +64,9 @@ final class SelectedFacetMapper
      * @param string[] $selectedFacetsSet
      * @param array $facetDefinitions
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\SelectedFacet[]
      */
@@ -116,6 +134,19 @@ final class SelectedFacetMapper
                         'id' => $id,
                         'label' => $label,
                     ]);
+                }
+
+                break;
+            case FacetItem::TYPE_STATE:
+                foreach ($ids as $id) {
+                    if (!in_array($id, $this->excludedStates, true)) {
+                        $state = $this->objectStateService->loadObjectState($id);
+                        $label = $state->getName();
+                        $items[] = new FacetItem([
+                            'id' => $id,
+                            'label' => $label,
+                        ]);
+                    }
                 }
 
                 break;
