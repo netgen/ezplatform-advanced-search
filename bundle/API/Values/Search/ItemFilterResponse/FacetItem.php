@@ -15,6 +15,7 @@ final class FacetItem extends ValueObject implements JsonSerializable
     public const TYPE_TAG = 'tag';
     public const TYPE_NUMBER = 'number';
     public const TYPE_CONTENT = 'content';
+    public const TYPE_STATE = 'state';
 
     /**
      * @var int

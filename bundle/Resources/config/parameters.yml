@@ -3,3 +3,4 @@ parameters:
     netgen_ez_platform_advanced_search.item_filter.search_page.max_per_page_choices: [10, 20]
     netgen_ez_platform_advanced_search.item_filter.search_page.default_max_per_page: 10
     netgen_ez_platform_advanced_search.item_filter.default.traslation_domain: 'advanced_search'
+    netgen_ez_platform_advanced_search.item_filter.default.excluded_states: []

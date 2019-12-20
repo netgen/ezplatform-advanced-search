@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers;
 
+use eZ\Publish\API\Repository\ObjectStateService;
 use eZ\Publish\API\Repository\Values\Content\Search\Facet as ApiFacet;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet;
@@ -34,16 +35,30 @@ class FacetMapper
     private $loadService;
 
     /**
+     * @var ObjectStateService
+     */
+    private $objectStateService;
+
+    /**
+     * @var array State IDs to be excluded from facets
+     */
+    private $excludedStates;
+
+    /**
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\FacetTitleMapper $facetTitleMapper
      */
     public function __construct(
         FacetTitleMapper $facetTitleMapper,
         TagsService $tagsService,
-        LoadService $loadService
+        LoadService $loadService,
+        ObjectStateService $objectStateService,
+        array $excludedStates
     ) {
         $this->facetTitleMapper = $facetTitleMapper;
         $this->tagsService = $tagsService;
         $this->loadService = $loadService;
+        $this->objectStateService = $objectStateService;
+        $this->excludedStates = $excludedStates;
     }
 
     /**
@@ -52,9 +67,9 @@ class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -82,9 +97,9 @@ class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -218,6 +233,23 @@ class FacetMapper
                         'label' => $label,
                         'count' => $count,
                     ]);
+                }
+
+                break;
+            case FacetItem::TYPE_STATE:
+                foreach ($facet->entries as $entry => $count) {
+                    if (!in_array($entry, $this->excludedStates, true)) {
+                        $state = $this->objectStateService->loadObjectState($entry);
+                        $label = $state->getName();
+                        if ($definition['showCount']) {
+                            $label = $label . ' (' . $count . ')';
+                        }
+                        $items[] = new FacetItem([
+                            'id' => $entry,
+                            'label' => $label,
+                            'count' => $count,
+                        ]);
+                    }
                 }
 
                 break;
