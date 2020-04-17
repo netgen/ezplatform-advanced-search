@@ -9,6 +9,45 @@ use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRes
 /**
  * Represents filter response for pagination use only.
  */
-final class PagerResponse extends ItemFilterResponse
+class PagerResponse extends ItemFilterResponse
 {
+    /**
+     * @var string
+     */
+    public $nbResultsText;
+
+    /**
+     * @var string
+     */
+    public $noResultsText;
+
+    /**
+     * @var int
+     */
+    public $maxPerPage;
+
+    /**
+     * @var string
+     */
+    public $maxPerPagePrefix;
+
+    /**
+     * @var string
+     */
+    public $maxPerPageSuffix;
+
+    /**
+     * @var int
+     */
+    public $currentPage;
+
+    /**
+     * @var int
+     */
+    public $nbPages;
+
+    /**
+     * @var array
+     */
+    public $items = [];
 }
