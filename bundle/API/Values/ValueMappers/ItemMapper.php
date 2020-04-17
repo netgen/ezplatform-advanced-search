@@ -10,15 +10,14 @@ use Netgen\EzPlatformSiteApi\API\Values\Content;
 abstract class ItemMapper
 {
     /**
-     * Map given $content to search response item instance.
+     * Map given $contentItems to search response item instances.
      *
-     * @param \iterable $contentItems
+     * @param \Netgen\EzPlatformSiteApi\API\Values\Content[] $contentItems
      *
-     * @return ValueObject[]
+     * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\ValueObject[]
      */
-    public function mapItems(
-        iterable $contentItems
-    ): array {
+    public function mapItems(array $contentItems): array
+    {
         $items = [];
 
         foreach ($contentItems as $content) {
@@ -34,7 +33,5 @@ abstract class ItemMapper
         return $items;
     }
 
-    abstract public function mapItem(
-        Content $content
-    ): ?ValueObject;
+    abstract public function mapItem(Content $content): ?ValueObject;
 }
