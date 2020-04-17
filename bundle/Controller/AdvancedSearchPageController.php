@@ -9,14 +9,15 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifi
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Visibility;
-use Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\Pagination\Pagerfanta\AdvancedFindAdapter;
 use Netgen\Bundle\EzPlatformSiteApiBundle\Controller\Controller;
-use Pagerfanta\Pagerfanta;
+use Netgen\EzPlatformSiteApi\Core\Traits\PagerfantaTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdvancedSearchPageController extends Controller
 {
+    use PagerfantaTrait;
+
     /**
      * Action for displaying the results of full text search.
      *
@@ -58,13 +59,9 @@ class AdvancedSearchPageController extends Controller
         $query->query = new Query\Criterion\FullText($searchText);
         $query->filter = new LogicalAnd($criteria);
 
-        $adapter = new AdvancedFindAdapter($query, $this->getSite()->getFindService());
-        $pager = new Pagerfanta($adapter);
-
-        $pager->setNormalizeOutOfRangePages(true);
-        $pager->setMaxPerPage((int) $configResolver->getParameter('search.default_limit', 'ngsite'));
         $currentPage = (int) $request->get('page', 1);
-        $pager->setCurrentPage($currentPage > 0 ? $currentPage : 1);
+        $maxPerPage = (int) $configResolver->getParameter('search.default_limit', 'ngsite');
+        $pager = $this->getFindPager($query, $currentPage, $maxPerPage);
 
         $response = $this->render(
             $configResolver->getParameter('template.advanced_search', 'ngsite'),
