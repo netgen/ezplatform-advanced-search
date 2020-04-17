@@ -82,6 +82,25 @@ class ItemFilterApiController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $mapper identifier of mapper used for items
+     *
+     * @throws \Exception
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function autocompleteResponse(Request $request, string $mapper): JsonResponse
+    {
+        $itemFilterRequest = $this->getItemFilterRequest($request);
+        $itemFilterRequest->mapperIdentifier = $mapper;
+        $itemFilterRequest->parameters = [
+            'autocompleteResponse' => true,
+        ];
+
+        return $this->getResponse($itemFilterRequest);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @throws \Exception
      *

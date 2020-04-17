@@ -10,6 +10,12 @@ netgen_ez_platform_advanced_search_item_filter_pager:
         _controller: 'netgen_ez_platform_advanced_search.controller.item_filter:pagerResponse'
     methods: [GET]
 
+netgen_ez_platform_advanced_search_item_filter_autocomplete:
+    path: /item_filter_autocomplete_api/{mapper}
+    defaults:
+        _controller: 'netgen_ez_platform_advanced_search.controller.item_filter:autocompleteResponse'
+    methods: [GET]
+
 netgen_ez_platform_advanced_search_full_page:
     path: /advanced_search
     defaults:
