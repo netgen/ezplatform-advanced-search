@@ -123,6 +123,22 @@ final class SelectedFacetMapper
                 break;
             case FacetItem::TYPE_CONTENT:
                 foreach ($ids as $id) {
+                    $content = $this->loadService->loadContent($id);
+                    $label = $id;
+                    if ($content->hasField('title')) {
+                        $label = $content->getFieldValue('title')->text;
+                    } elseif ($content->hasField('name')) {
+                        $label = $content->getFieldValue('name')->text;
+                    }
+                    $items[] = new SelectedFacetItem([
+                        'id' => $id,
+                        'label' => $label,
+                    ]);
+                }
+
+                break;
+            case FacetItem::TYPE_LOCATION:
+                foreach ($ids as $id) {
                     $content = $this->loadService->loadLocation($id)->content;
                     $label = $id;
                     if ($content->hasField('title')) {

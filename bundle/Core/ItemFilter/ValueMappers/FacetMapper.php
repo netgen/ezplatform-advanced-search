@@ -118,6 +118,21 @@ class FacetMapper
 
             $facet = $this->getFacet($facets, $identifier);
 
+            if ($facet === null) {
+                /** @noinspection SlowArrayOperationsInLoopInspection */
+                $mappedFacets = \array_merge(
+                    $mappedFacets,
+                    $this->recursiveMapRegularFacets(
+                        $productFilterRequest,
+                        $subFacetIdentifierMap,
+                        $facetDefinitions,
+                        $facets
+                    )
+                );
+
+                continue;
+            }
+
             $definition = $facetDefinitions[$identifier];
             $items = $this->mapItems($facet, $definition);
 
@@ -217,6 +232,26 @@ class FacetMapper
 
                 break;
             case FacetItem::TYPE_CONTENT:
+                foreach ($facet->entries as $entry => $count) {
+                    $content = $this->loadService->loadContent($entry);
+                    $label = $entry;
+                    if ($content->hasField('title')) {
+                        $label = $content->getFieldValue('title')->text;
+                    } elseif ($content->hasField('name')) {
+                        $label = $content->getFieldValue('name')->text;
+                    }
+                    if ($definition['showCount']) {
+                        $label = $label . ' (' . $count . ')';
+                    }
+                    $items[] = new FacetItem([
+                        'id' => $entry,
+                        'label' => $label,
+                        'count' => $count,
+                    ]);
+                }
+
+                break;
+            case FacetItem::TYPE_LOCATION:
                 foreach ($facet->entries as $entry => $count) {
                     $content = $this->loadService->loadLocation($entry)->content;
                     $label = $entry;
