@@ -10,6 +10,7 @@ use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterReq
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\FacetItem;
 use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
+use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
 use Netgen\EzPlatformSiteApi\Core\Site\LoadService;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use RuntimeException;
@@ -67,9 +68,9 @@ class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -97,9 +98,9 @@ class FacetMapper
      * @param array $facetDefinitions
      * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -123,7 +124,7 @@ class FacetMapper
                 $mappedFacets = \array_merge(
                     $mappedFacets,
                     $this->recursiveMapRegularFacets(
-                        $productFilterRequest,
+                        $itemFilterRequest,
                         $subFacetIdentifierMap,
                         $facetDefinitions,
                         $facets
@@ -186,9 +187,43 @@ class FacetMapper
             return $this->mapCustomFieldFacet($facet, $definition);
         }
 
+        if ($facet instanceof RawFacet) {
+            return $this->mapRawFacetItems($facet, $definition);
+        }
+
         $facetClass = \get_class($facet);
 
         throw new RuntimeException("Facet of type '{$facetClass}' is not handled");
+    }
+
+    private function mapRawFacetItems(RawFacet $facet, array $definition): array
+    {
+        $items = [];
+
+        foreach ($facet->data->buckets as $bucket) {
+            switch ($definition['type']) {
+                case FacetItem::TYPE_CONTENT:
+                    $content = $this->loadService->loadContent($bucket->val);
+                    $label = '';
+                    if ($content->hasField('title')) {
+                        $label = $content->getFieldValue('title')->text;
+                    } elseif ($content->hasField('name')) {
+                        $label = $content->getFieldValue('name')->text;
+                    }
+                    if ($definition['showCount']) {
+                        $label = $label . ' (' . $bucket->count . ')';
+                    }
+                    $items[] = new FacetItem([
+                        'id' => $bucket->val,
+                        'label' => $label,
+                        'count' => $count,
+                    ]);
+
+                    break;
+            }
+        }
+
+        return $items;
     }
 
     /**
