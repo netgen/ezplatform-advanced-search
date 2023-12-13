@@ -16,18 +16,18 @@
         }
     ],
     "require": {
-        "php": "~7.2",
+        "php": "~7.3",
         "ext-json": "*",
-        "ezsystems/ezpublish-kernel": "^7.5",
-        "netgen/ezplatform-site-api": "^3.4.0",
-        "netgen/ezplatform-search-extra": "^1.11.0"
+        "ezsystems/ezplatform-kernel": "^1.2",
+        "netgen/ezplatform-site-api": "^4.3.0",
+        "netgen/ezplatform-search-extra": "^2.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": "^9.0",
         "matthiasnoback/symfony-config-test": "^4.0.1",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.0",
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "phpstan/phpstan": "^0.11"
+        "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+        "friendsofphp/php-cs-fixer": "^3.20",
+        "phpstan/phpstan": "^1.9"
     },
     "autoload": {
         "psr-4": {
@@ -45,6 +45,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
         }
     }
 }
