@@ -3,7 +3,7 @@ services:
         class: Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers\FacetTitleMapper
         arguments:
             - '@eztags.api.service.tags'
-            - \\Ibexa\\Core\\Helper\\TranslationHelper
+            - '@Ibexa\\Core\\Helper\\TranslationHelper'
             - '@translator'
             - '%netgen_ez_platform_advanced_search.item_filter.default.translation_domain%'
 
@@ -13,7 +13,7 @@ services:
             - '@netgen_ez_platform_advanced_search.item_filter.facet_title_mapper'
             - '@eztags.api.service.tags.inner'
             - '@netgen.ezplatform_site.load_service'
-            - \\Ibexa\\Core\\Repository\\ObjectStateService
+            - '@Ibexa\\Core\\Repository\\ObjectStateService'
             - '%netgen_ez_platform_advanced_search.item_filter.default.excluded_states%'
 
     netgen_ez_platform_advanced_search.item_filter.selected_facet_mapper:
@@ -22,6 +22,6 @@ services:
             - '@netgen_ez_platform_advanced_search.item_filter.facet_title_mapper'
             - '@eztags.api.service.tags.inner'
             - '@netgen.ezplatform_site.load_service'
-            - \\Ibexa\\Core\\Repository\\ObjectStateService
+            - '@Ibexa\\Core\\Repository\\ObjectStateService'
             - '%netgen_ez_platform_advanced_search.item_filter.default.excluded_states%'
 
