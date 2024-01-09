@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Controller;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Visibility;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
 use Netgen\Bundle\EzPlatformSiteApiBundle\Controller\Controller;
 use Netgen\EzPlatformSiteApi\Core\Traits\PagerfantaTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +24,8 @@ class AdvancedSearchPageController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

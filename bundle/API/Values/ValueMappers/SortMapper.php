@@ -22,7 +22,7 @@ abstract class SortMapper
     /**
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $filterRequest
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\SortClause[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[]
      */
     abstract public function mapSortClauses(ItemFilterRequest $filterRequest): array;
 }

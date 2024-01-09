@@ -39,7 +39,7 @@ class ItemFilterService implements ItemFilterServiceInterface
     /**
      * @param ItemFilterRequest $request
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @return ItemFilterResponse
      */

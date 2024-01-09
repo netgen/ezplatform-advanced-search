@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\Search;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -49,10 +49,10 @@ class PaginationResolver
      * and max per page.
      *
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $filterRequest
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
      *
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
      */
     public function resolveQueryPagination(ItemFilterRequest $filterRequest, Query $query): void
     {
@@ -70,11 +70,11 @@ class PaginationResolver
      *
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $filterRequest
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse $response
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $searchResult
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $searchResult
      *
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
      */
     public function resolveResponsePagination(
         ItemFilterRequest $filterRequest,
