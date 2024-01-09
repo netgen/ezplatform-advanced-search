@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers;
 
-use eZ\Publish\Core\Helper\TranslationHelper;
+use Ibexa\Core\Helper\TranslationHelper;
 use Netgen\TagsBundle\API\Repository\TagsService;
 use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -20,7 +20,7 @@ final class FacetTitleMapper
     private $tagService;
 
     /**
-     * @var \eZ\Publish\Core\Helper\TranslationHelper
+     * @var \Ibexa\Core\Helper\TranslationHelper
      */
     private $translationHelper;
 
@@ -36,7 +36,7 @@ final class FacetTitleMapper
 
     /**
      * @param \Netgen\TagsBundle\API\Repository\TagsService $tagService
-     * @param \eZ\Publish\Core\Helper\TranslationHelper $translationHelper
+     * @param \Ibexa\Core\Helper\TranslationHelper $translationHelper
      * @param \Symfony\Component\Translation\TranslatorInterface $translator
      * @param string $translationDomain
      */
@@ -62,9 +62,9 @@ final class FacetTitleMapper
      * @param string $type
      * @param string|int $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      *
      * @return string
      */
@@ -77,9 +77,9 @@ final class FacetTitleMapper
      * @param string $type
      * @param string|int $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      *
      * @return string
      */
@@ -98,9 +98,9 @@ final class FacetTitleMapper
     /**
      * @param string|int $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      *
      * @return string|null
      */
@@ -114,7 +114,7 @@ final class FacetTitleMapper
     /**
      * @param \Netgen\TagsBundle\API\Repository\Values\Tags\Tag $tag
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      *
      * @return string|null
      */

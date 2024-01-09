@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\eZPlatformAdvancedSearchBundle\Core\ItemFilter\ValueMappers;
 
-use eZ\Publish\API\Repository\ObjectStateService;
-use eZ\Publish\API\Repository\Values\Content\Search\Facet as ApiFacet;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet as ApiFacet;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet;
 use Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\FacetItem;
@@ -66,11 +66,11 @@ class FacetMapper
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $itemFilterRequest
      * @param string[] $facetIdentifierMap
      * @param array $facetDefinitions
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $facets
      *
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
      */
@@ -96,10 +96,10 @@ class FacetMapper
      * @param \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterRequest $itemFilterRequest
      * @param string[] $facetIdentifierMap
      * @param array $facetDefinitions
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $facets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      * @throws \Netgen\EzPlatformSiteApi\API\Exceptions\TranslationNotMatchedException
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\Facet[]
@@ -176,7 +176,7 @@ class FacetMapper
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet $facet
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet $facet
      * @param array $definition
      *
      * @return \Netgen\Bundle\eZPlatformAdvancedSearchBundle\API\Values\Search\ItemFilterResponse\FacetItem[]
@@ -329,10 +329,10 @@ class FacetMapper
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $facets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $facets
      * @param string $name
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet
      */
     private function getFacet(array $facets, string $name): ?ApiFacet
     {
